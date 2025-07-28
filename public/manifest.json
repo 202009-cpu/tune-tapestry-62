@@ -1,7 +1,7 @@
 {
   "id": "com.tunetapestry.app",
-  "name": "Music Mack",
-  "short_name": "Mumack",
+  "name": "Tune Tapestry",
+  "short_name": "Tapestry",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
