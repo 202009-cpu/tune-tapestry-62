@@ -4,28 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tune Tapestry</title>
-  <meta name="description" content="Lovable Generated Project" />
-  <meta name="author" content="Lovable" />
 
-  <meta property="og:title" content="Tune Tapestry" />
-  <meta property="og:description" content="Lovable Generated Project" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  <!-- App description and SEO -->
+  <meta name="description" content="Tune Tapestry - Music Web App" />
+  <meta name="theme-color" content="#1DB954" />
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@lovable_dev" />
-  <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-  <!-- PWA manifest and service worker -->
+  <!-- PWA Manifest -->
   <link rel="manifest" href="/manifest.json">
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js');
-    }
-  </script>
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="Tune Tapestry" />
+  <meta property="og:description" content="Listen and explore music easily." />
+  <meta property="og:image" content="/icon-512.png" />
+  <meta property="og:type" content="website" />
 </head>
+
 <body>
   <div id="root"></div>
+
+  <!-- Your app entry point -->
   <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
