@@ -39,6 +39,7 @@ export function MusicPlayer({ currentTrack, isPlaying, onPlayPause, onNext, onPr
 
   // Load YouTube API
   useEffect(() => {
+    console.log('Loading YouTube API...');
     if (!window.YT) {
       const tag = document.createElement('script');
       tag.src = 'https://www.youtube.com/iframe_api';
@@ -46,22 +47,30 @@ export function MusicPlayer({ currentTrack, isPlaying, onPlayPause, onNext, onPr
       firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
 
       window.onYouTubeIframeAPIReady = () => {
+        console.log('YouTube API Ready!');
         initializePlayer();
       };
     } else {
+      console.log('YouTube API already loaded');
       initializePlayer();
     }
   }, []);
 
   const initializePlayer = () => {
+    console.log('Initializing player...', { 
+      hasRef: !!playerRef.current, 
+      hasYT: !!window.YT, 
+      hasPlayer: !!(window.YT && window.YT.Player) 
+    });
+    
     if (playerRef.current && window.YT && window.YT.Player) {
       const newPlayer = new window.YT.Player(playerRef.current, {
-        height: '0',
-        width: '0',
+        height: '200',
+        width: '300',
         playerVars: {
           autoplay: 0,
-          controls: 0,
-          disablekb: 1,
+          controls: 1,
+          disablekb: 0,
           enablejsapi: 1,
           fs: 0,
           iv_load_policy: 3,
@@ -71,24 +80,38 @@ export function MusicPlayer({ currentTrack, isPlaying, onPlayPause, onNext, onPr
         },
         events: {
           onReady: (event: any) => {
+            console.log('Player ready!', event.target);
             setPlayer(event.target);
             event.target.setVolume(volume[0]);
           },
           onStateChange: (event: any) => {
+            console.log('Player state changed:', event.data);
             if (event.data === window.YT.PlayerState.ENDED) {
               onNext();
             }
           },
+          onError: (event: any) => {
+            console.error('YouTube player error:', event.data);
+          },
         },
       });
+    } else {
+      console.log('Cannot initialize player - missing dependencies');
     }
   };
 
   // Update player when track changes
   useEffect(() => {
+    console.log('Track or player changed:', { 
+      hasPlayer: !!player, 
+      currentTrack: currentTrack?.title,
+      videoId: currentTrack?.videoId 
+    });
     if (player && currentTrack) {
+      console.log('Loading video:', currentTrack.videoId);
       player.loadVideoById(currentTrack.videoId);
       if (isPlaying) {
+        console.log('Auto-playing video');
         player.playVideo();
       }
     }
@@ -149,10 +172,17 @@ export function MusicPlayer({ currentTrack, isPlaying, onPlayPause, onNext, onPr
 
   return (
     <>
-      {/* Hidden YouTube Player */}
+      {/* YouTube Player - Temporarily Visible for Debugging */}
       <div
         ref={playerRef}
-        style={{ position: 'absolute', top: '-1000px', left: '-1000px' }}
+        style={{ 
+          position: 'fixed', 
+          top: '20px', 
+          right: '20px', 
+          zIndex: 1000,
+          border: '2px solid #1DB954',
+          borderRadius: '8px'
+        }}
       />
       
       <Card className="fixed bottom-0 left-0 right-0 bg-spotify-gray border-spotify-light-gray shadow-player p-4 z-50">
